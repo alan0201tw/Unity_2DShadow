@@ -2,13 +2,16 @@
 {
 	Properties
 	{
-		_LightMap2D ("Light Map 2D", 2D) = "white" {}
+		_LightMap2D ("Light Map 2D", 2D) = "grey" {}
+		_Ambient ("_Ambient", Vector) = (0,0,0,0)
 		[HideInInspector]_MainTex ("Texture", 2D) = "white" {}
 	}
 	SubShader
 	{
 		// No culling or depth
 		Cull Off ZWrite Off ZTest Always
+
+		Blend SrcAlpha OneMinusSrcAlpha
 
 		Tags
         {
@@ -39,6 +42,7 @@
 
 			sampler2D _MainTex;
 			sampler2D _LightMap2D;
+			float4 _Ambient;
 			
 			v2f vert (appdata v)
 			{
@@ -50,8 +54,7 @@
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-				float4 _ambient = float4(0.2f,0.2f,0.2f,0.2f);
-				fixed4 col = tex2D(_MainTex, i.uv) * (tex2D(_LightMap2D, i.uv) + _ambient);
+				fixed4 col = tex2D(_MainTex, i.uv) * (tex2D(_LightMap2D, i.uv) + _Ambient);
 				//fixed4 col = tex2D(_LightMap2D, i.uv);
 				return col;
 			}

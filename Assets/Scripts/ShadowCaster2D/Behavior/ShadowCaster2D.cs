@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShadowCaster2D
+namespace ShadowCaster2D.CPU
 {
     /// <summary>
     /// The GameObject containing this component, should not be able to rotate around X and Y axis.
@@ -19,22 +19,18 @@ namespace ShadowCaster2D
         [SerializeField]
         [Tooltip("This component will fire (sampleCount + 1) rays every frame.")]
         [Range(12, 120)]
-        private int sampleCount;
+        private int sampleCount = 12;
         [SerializeField]
-        private float radius;
+        private float radius = 2f;
         [SerializeField]
         [Range(0f, 360f)]
-        private float angle;
+        private float angle = 360f;
         [SerializeField]
         private LayerMask obstacleMask;
 
         [SerializeField]
         private Color shadowColor = Color.white;
-        #endregion
 
-        #region Graphics/Geometry variables
-        private Mesh m_shadowMesh;
-        private Material m_shadowMaterial;
         #endregion
 
         #region Artifact reducing parameters
@@ -50,30 +46,29 @@ namespace ShadowCaster2D
         public float Angle { get { return angle; } }
         public float RayAngleInterval { get { return angle / sampleCount; } }
 
+        public MaterialPropertyBlock PropertyBlock { get; private set; }
+        public Mesh ShadowMesh { get; private set; }
+
         private void Awake()
         {
-            if (m_shadowMaterial == null)
-            {
-                // might be able to use custom shader in the future, with light attenuation
-                m_shadowMaterial = new Material(Shader.Find("_FatshihShader/ShadowShader"));
-            }
-
-            m_shadowMesh = new Mesh();
+            ShadowMesh = new Mesh();
             // mark this mesh as dynamic to improve performance
-            m_shadowMesh.MarkDynamic();
+            ShadowMesh.MarkDynamic();
+
+            PropertyBlock = new MaterialPropertyBlock();
         }
 
-        private void LateUpdate()
+        private void Start()
         {
-            RenderShadowMesh();
+            LightCaster2DCamera.Instance.RegisterShadowCaster(this);
+
+            PropertyBlock.SetColor("_Color", shadowColor);
+            PropertyBlock.SetVector("_ShadowCasterParam", new Vector4(transform.position.x, transform.position.y, transform.position.z, Radius));
         }
 
-        protected virtual void RenderShadowMesh()
+        private void Update()
         {
             UpdateShadowMesh();
-            m_shadowMaterial.SetColor("_Color", shadowColor);
-            m_shadowMaterial.SetVector("_ShadowCasterParam", new Vector4(transform.position.x, transform.position.y, transform.position.z, Radius));
-            Graphics.DrawMesh(m_shadowMesh, transform.position, transform.rotation, m_shadowMaterial, Layer);
         }
 
         /// <summary>
@@ -149,11 +144,11 @@ namespace ShadowCaster2D
                 }
             }
 
-            m_shadowMesh.Clear();
+            ShadowMesh.Clear();
 
-            m_shadowMesh.vertices = vertices;
-            m_shadowMesh.triangles = triangles;
-            m_shadowMesh.RecalculateNormals();
+            ShadowMesh.vertices = vertices;
+            ShadowMesh.triangles = triangles;
+            ShadowMesh.RecalculateNormals();
         }
 
         private EdgeInfo FindEdge(RaycastHit2DPartialInfo minViewCast, RaycastHit2DPartialInfo maxViewCast)

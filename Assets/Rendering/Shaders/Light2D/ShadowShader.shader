@@ -2,7 +2,8 @@
 {
 	Properties
 	{
-		_Color ("Main Color", Color) = (1,1,1,1)
+		[PerRendererData] _Color ("Main Color", Color) = (1,1,1,1)
+		[PerRendererData] _ShadowCasterParam ("_ShadowCasterParam", Vector) = (0,0,0,0)
 	}
 	SubShader
 	{
@@ -55,9 +56,9 @@
 				fixed4 col = _Color;
 
 				float distance01 = distance(_ShadowCasterParam.xyz, i.worldPos) / _ShadowCasterParam.w;
-				col.a += 0.2f;
-				col.a *= pow((1-distance01), 1.0f);
-				col.rgb *= col.a;
+				
+				col.a *= (1-distance01);
+				//col.rgb *= col.a;
 				return col;
 			}
 			ENDCG

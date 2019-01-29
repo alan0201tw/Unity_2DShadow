@@ -10,32 +10,41 @@ namespace ShadowCaster2D.GPU
     /// Also, this approach cannot be tuned by layer. We need to do the "tagging" in shader layer.
     /// </summary>
     [ExecuteInEditMode]
+    [RequireComponent(typeof(MeshRenderer))]
+    [RequireComponent(typeof(MeshFilter))]
     public class ShadowCaster2DGPU : MonoBehaviour
     {
         #region Unity visible parameters
         [SerializeField]
-        [Range(12, 60)]
-        private int indicesCount = 6;
+        [Range(30, 360)]
+        private int indicesCount = 60;
         [SerializeField]
         [Range(50, 250)]
-        private int stepCount = 60;
+        private int stepCount = 75;
         [SerializeField]
         private float radius = 1f;
         [SerializeField]
         [Range(0f, 360f)]
-        private float angle = 0f;
+        private float angle = 360f;
         #endregion
 
         [SerializeField]
         private Color shadowColor = Color.white;
 
-        public MaterialPropertyBlock PropertyBlock { get; private set; }
+        public MaterialPropertyBlock m_propertyBlock;
+        private MeshFilter m_meshFilter;
+
+        public MeshRenderer ShadowMeshRenderer { get; private set; }
         public Mesh ShadowMesh { get; private set; }
 
         private void Start()
         {
+            m_propertyBlock = new MaterialPropertyBlock();
+            m_meshFilter = GetComponent<MeshFilter>();
+            ShadowMeshRenderer = GetComponent<MeshRenderer>();
             ShadowMesh = new Mesh();
-            PropertyBlock = new MaterialPropertyBlock();
+            m_meshFilter.mesh = ShadowMesh;
+
             UpdateShadowMesh();
 
             LightCaster2DCameraGPU.Instance.RegisterShadowCaster(this);
@@ -43,11 +52,13 @@ namespace ShadowCaster2D.GPU
 
         private void Update()
         {
-            PropertyBlock.SetVector("_CenterWorldPos", transform.position);
-            PropertyBlock.SetColor("_Color", shadowColor);
-            PropertyBlock.SetFloat("_Radius", radius);
+            m_propertyBlock.SetVector("_CenterWorldPos", transform.position);
+            m_propertyBlock.SetColor("_Color", shadowColor);
+            m_propertyBlock.SetFloat("_Radius", radius);
             //m_propertyBlock.SetTexture("_ObstacleTex", m_lightCasterCamera.ObstacleTexture);
-            PropertyBlock.SetInt("_StepCount", stepCount);
+            m_propertyBlock.SetInt("_StepCount", stepCount);
+
+            ShadowMeshRenderer.SetPropertyBlock(m_propertyBlock);
         }
 
         private void UpdateShadowMesh()
@@ -78,7 +89,7 @@ namespace ShadowCaster2D.GPU
 
                 currentAngle += angleStep;
 
-                Debug.DrawLine(transform.position, transform.TransformPoint(vertices[i]), shadowColor);
+                //Debug.DrawLine(transform.position, transform.TransformPoint(vertices[i]), shadowColor);
 
                 if (i < indicesCount + 1)
                 {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace FatshihDebug
 {
@@ -39,6 +40,15 @@ namespace FatshihDebug
             passedFrameCount++;
 
             averageFPS = passedFrameCount / Time.time;
+
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                SceneManager.LoadScene(0);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                SceneManager.LoadScene(1);
+            }
         }
 
         private IEnumerator UpdateFPS()

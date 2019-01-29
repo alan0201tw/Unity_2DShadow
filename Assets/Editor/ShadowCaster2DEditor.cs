@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEditor;
 
-namespace ShadowCaster2D.CustomUnityEditor
+namespace ShadowCaster2D.CPU.CustomUnityEditor
 {
     [CustomEditor(typeof(ShadowCaster2D), true)]
     public class ShadowCaster2DEditor : Editor

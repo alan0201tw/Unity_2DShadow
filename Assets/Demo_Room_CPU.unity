@@ -705,7 +705,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 223c704eff139bc4ca199b9f0f9fc3a0, type: 3}
---- !u!1 &671876585
+--- !u!1 &597606396
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -713,48 +713,32 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 671876587}
-  - component: {fileID: 671876586}
+  - component: {fileID: 597606397}
   m_Layer: 0
-  m_Name: ShadowCaster2D (1)
+  m_Name: ShadowCasters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &671876586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 671876585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64cebeb86dd4a064697bb839f878c750, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sampleCount: 60
-  radius: 16.6
-  angle: 360
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 256
-  shadowColor: {r: 1, g: 0, b: 0, a: 0.666}
---- !u!4 &671876587
+--- !u!4 &597606397
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 671876585}
-  m_LocalRotation: {x: 0, y: 0, z: -0.43989146, w: 0.898051}
-  m_LocalPosition: {x: -6.4332232, y: 4.4869213, z: 0}
+  m_GameObject: {fileID: 597606396}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 873466336}
+  - {fileID: 862409886}
+  - {fileID: 1170295565}
+  - {fileID: 759772200}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &681138431
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -856,7 +840,7 @@ PolygonCollider2D:
       - {x: 1.09, y: 0}
       - {x: 1.09, y: 0.29}
       - {x: -1.09, y: 0.29}
---- !u!1 &765919737
+--- !u!1 &759772198
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -864,70 +848,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 765919742}
-  - component: {fileID: 765919741}
+  - component: {fileID: 759772200}
+  - component: {fileID: 759772199}
   m_Layer: 0
-  m_Name: Light Camera
+  m_Name: ShadowCaster2D (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!20 &765919741
-Camera:
+--- !u!114 &759772199
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765919737}
+  m_GameObject: {fileID: 759772198}
   m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
-  m_projectionMatrixMode: 1
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_GateFitMode: 2
-  m_FocalLength: 50
-  m_NormalizedViewPortRect:
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64cebeb86dd4a064697bb839f878c750, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sampleCount: 30
+  radius: 10
+  angle: 360
+  obstacleMask:
     serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 1
-  orthographic size: 5
-  m_Depth: -5
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 2147483648
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 15bc36347f6d22043ac2266073920222, type: 2}
-  m_TargetDisplay: 1
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!4 &765919742
+    m_Bits: 256
+  shadowColor: {r: 0.5372549, g: 1, b: 0, a: 0.60784316}
+--- !u!4 &759772200
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765919737}
+  m_GameObject: {fileID: 759772198}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.58, y: -2.54, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1188187379}
-  m_RootOrder: 0
+  m_Father: {fileID: 597606397}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &769049474
 PrefabInstance:
@@ -1042,6 +1003,156 @@ PolygonCollider2D:
       - {x: 1.09, y: 0}
       - {x: 1.09, y: 0.29}
       - {x: -1.09, y: 0.29}
+--- !u!1 &862409884
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 862409886}
+  - component: {fileID: 862409885}
+  m_Layer: 0
+  m_Name: ShadowCaster2D (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &862409885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862409884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64cebeb86dd4a064697bb839f878c750, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sampleCount: 30
+  radius: 10
+  angle: 360
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 256
+  shadowColor: {r: 1, g: 0, b: 0, a: 0.63529414}
+--- !u!4 &862409886
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862409884}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.27, y: 0.39, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 597606397}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &873466334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 873466336}
+  - component: {fileID: 873466335}
+  m_Layer: 0
+  m_Name: ShadowCaster2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &873466335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873466334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64cebeb86dd4a064697bb839f878c750, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sampleCount: 30
+  radius: 10
+  angle: 360
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 256
+  shadowColor: {r: 1, g: 1, b: 1, a: 0.63529414}
+--- !u!4 &873466336
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873466334}
+  m_LocalRotation: {x: -0, y: -0, z: -0.8495473, w: 0.5275125}
+  m_LocalPosition: {x: 6.01, y: 0.58, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 597606397}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+--- !u!1 &1170295563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1170295565}
+  - component: {fileID: 1170295564}
+  m_Layer: 0
+  m_Name: ShadowCaster2D (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1170295564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170295563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64cebeb86dd4a064697bb839f878c750, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sampleCount: 30
+  radius: 10
+  angle: 360
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 256
+  shadowColor: {r: 0, g: 0.75686276, b: 1, a: 0.5019608}
+--- !u!4 &1170295565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170295563}
+  m_LocalRotation: {x: -0, y: -0, z: -0.8495473, w: 0.5275125}
+  m_LocalPosition: {x: 0.86, y: -0.97, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 597606397}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &1188187374
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,7 +1163,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1188187379}
   - component: {fileID: 1188187378}
-  - component: {fileID: 1188187377}
   - component: {fileID: 1188187376}
   - component: {fileID: 1188187375}
   - component: {fileID: 1188187380}
@@ -1072,14 +1182,6 @@ AudioListener:
   m_GameObject: {fileID: 1188187374}
   m_Enabled: 1
 --- !u!124 &1188187376
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1188187374}
-  m_Enabled: 1
---- !u!92 &1188187377
 Behaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1117,13 +1219,13 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 1
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -1139,8 +1241,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 765919742}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1157,6 +1258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blendingMaterial: {fileID: 2100000, guid: c0edecd8ba95bab4c87ae941716cc678, type: 2}
+  lightMap: {fileID: 8400000, guid: 15bc36347f6d22043ac2266073920222, type: 2}
 --- !u!1001 &1220956772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1305,56 +1407,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1222699940}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1262894026
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1262894027}
-  - component: {fileID: 1262894028}
-  m_Layer: 0
-  m_Name: ShadowCaster2D
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1262894027
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1262894026}
-  m_LocalRotation: {x: 0, y: 0, z: -0.8495473, w: 0.5275125}
-  m_LocalPosition: {x: 6.7818413, y: 4.513718, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
---- !u!114 &1262894028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1262894026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64cebeb86dd4a064697bb839f878c750, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sampleCount: 120
-  radius: 19.57
-  angle: 360
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 256
-  shadowColor: {r: 1, g: 1, b: 1, a: 0.547}
 --- !u!1001 &1352805834
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1577,56 +1629,6 @@ PolygonCollider2D:
       - {x: 0.305, y: 0}
       - {x: 0.305, y: 0.39}
       - {x: 0.255, y: 0.5}
---- !u!1 &1377692923
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1377692925}
-  - component: {fileID: 1377692924}
-  m_Layer: 0
-  m_Name: ShadowCaster2D (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1377692924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1377692923}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64cebeb86dd4a064697bb839f878c750, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sampleCount: 60
-  radius: 16.6
-  angle: 360
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 256
-  shadowColor: {r: 0, g: 1, b: 0.6275861, a: 1}
---- !u!4 &1377692925
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1377692923}
-  m_LocalRotation: {x: 0, y: 0, z: -0.43989146, w: 0.898051}
-  m_LocalPosition: {x: 2.2613904, y: 3.6874156, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1001 &1539195583
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1683,70 +1685,20 @@ PrefabInstance:
     - target: {fileID: 212285917615471768, guid: 7f57952eedc13fa498d4cfaf821de46f,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.90644026
+      value: 0.99594325
       objectReference: {fileID: 0}
     - target: {fileID: 212285917615471768, guid: 7f57952eedc13fa498d4cfaf821de46f,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.9191176
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 212285917615471768, guid: 7f57952eedc13fa498d4cfaf821de46f,
         type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.7058823
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f57952eedc13fa498d4cfaf821de46f, type: 3}
---- !u!1 &1611864081
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1611864083}
-  - component: {fileID: 1611864082}
-  m_Layer: 0
-  m_Name: ShadowCaster2D (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1611864082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1611864081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64cebeb86dd4a064697bb839f878c750, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sampleCount: 120
-  radius: 19.57
-  angle: 360
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 256
-  shadowColor: {r: 0.11724187, g: 0, b: 1, a: 0.622}
---- !u!4 &1611864083
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1611864081}
-  m_LocalRotation: {x: 0, y: 0, z: -0.8495473, w: 0.5275125}
-  m_LocalPosition: {x: -1.2631743, y: -2.182135, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1001 &1876285604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2019,17 +1971,17 @@ PrefabInstance:
     - target: {fileID: 212285917615471768, guid: 7f57952eedc13fa498d4cfaf821de46f,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.90644026
+      value: 0.99594325
       objectReference: {fileID: 0}
     - target: {fileID: 212285917615471768, guid: 7f57952eedc13fa498d4cfaf821de46f,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.9191176
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 212285917615471768, guid: 7f57952eedc13fa498d4cfaf821de46f,
         type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.7058823
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f57952eedc13fa498d4cfaf821de46f, type: 3}

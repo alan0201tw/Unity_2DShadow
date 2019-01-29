@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: BlendingMaterial_GPU
   m_Shader: {fileID: 4800000, guid: ab3e664504093de4e9e86ad5d346a70f, type: 3}
   m_ShaderKeywords: 
@@ -19,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _LightMap2D:
-        m_Texture: {fileID: 8400000, guid: 97c3a3720166957418a14132474ec94d, type: 2}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -28,4 +29,5 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
+    - _Ambient: {r: 0.2, g: 0.2, b: 0.2, a: 0.2}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

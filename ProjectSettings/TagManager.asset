@@ -13,6 +13,7 @@ TagManager:
   - UI
   - 
   - 
+  - Obstacle
   - 
   - 
   - 
@@ -35,8 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - ShadowMesh(Preserved)
   m_SortingLayers:
   - name: Default
     uniqueID: 0
