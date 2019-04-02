@@ -12,7 +12,7 @@ namespace ShadowCaster2D.GPU
     [ExecuteInEditMode]
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshFilter))]
-    public class ShadowCaster2DGPU : MonoBehaviour
+    public class ShadowCaster2DInstanced : MonoBehaviour
     {
         #region Unity visible parameters
         [SerializeField]
@@ -36,6 +36,13 @@ namespace ShadowCaster2D.GPU
 
         public MeshRenderer ShadowMeshRenderer { get; private set; }
         public Mesh ShadowMesh { get; private set; }
+        public MaterialPropertyBlock PropertyBlock
+        {
+            get
+            {
+                return m_propertyBlock;
+            }
+        }
 
         private void Start()
         {
@@ -47,13 +54,13 @@ namespace ShadowCaster2D.GPU
 
             UpdateShadowMesh();
 
-            LightCaster2DCameraGPU.Instance.RegisterShadowCaster(this);
+            LightCaster2DCameraInstanced.Instance.RegisterShadowCaster(this);
 
             m_propertyBlock.SetVector("_CenterWorldPos", transform.position);
-            m_propertyBlock.SetColor("_Color", shadowColor);
+            Vector4 colorVector = new Vector4(shadowColor.r, shadowColor.g, shadowColor.b, shadowColor.a);
+            m_propertyBlock.SetVector("_Color", colorVector);
             m_propertyBlock.SetFloat("_Radius", radius);
-            //m_propertyBlock.SetTexture("_ObstacleTex", m_lightCasterCamera.ObstacleTexture);
-            m_propertyBlock.SetInt("_StepCount", stepCount);
+            //m_propertyBlock.SetInt("_StepCount", stepCount);
 
             ShadowMeshRenderer.SetPropertyBlock(m_propertyBlock);
         }
