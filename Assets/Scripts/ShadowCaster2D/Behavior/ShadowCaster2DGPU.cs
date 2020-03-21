@@ -44,7 +44,6 @@ namespace ShadowCaster2D.GPU
 
         public MeshRenderer ShadowMeshRenderer { get; private set; }
         public Mesh ShadowMesh { get; private set; }
-        public MaterialPropertyBlock PropertyBlock { get; private set; }
         
         public Material ShadowMaterial { get; set; }
         public RenderTexture ObstacleTexture { get; set; }
@@ -58,8 +57,7 @@ namespace ShadowCaster2D.GPU
         private void Start()
         {
             m_TargetCamera.RegisterShadowCaster(this);
-
-            PropertyBlock = new MaterialPropertyBlock();
+            
             m_meshFilter = GetComponent<MeshFilter>();
             ShadowMeshRenderer = GetComponent<MeshRenderer>();
             ShadowMesh = new Mesh();
@@ -97,16 +95,24 @@ namespace ShadowCaster2D.GPU
                 m_obstacleCamera.targetTexture = ObstacleTexture;
             }
             ShadowMaterial.SetTexture("_ObstacleTex", ObstacleTexture);
+        }
 
+        private void Update()
+        {
             ShadowMaterial.SetMatrix("_ObstacleCameraViewMatrix", ObstacleCamera.worldToCameraMatrix);
             ShadowMaterial.SetMatrix("_ObstacleCameraProjMatrix", ObstacleCamera.projectionMatrix);
 
-            PropertyBlock.SetVector("_CenterWorldPos", transform.position);
-            PropertyBlock.SetColor("_Color", m_ShadowColor);
-            PropertyBlock.SetFloat("_Radius", m_Radius);
-            PropertyBlock.SetInt("_StepCount", m_StepCount);
+            ShadowMaterial.SetVector("_CenterWorldPos", transform.position);
+            ShadowMaterial.SetColor("_Color", m_ShadowColor);
+            ShadowMaterial.SetFloat("_Radius", m_Radius);
+            ShadowMaterial.SetInt("_StepCount", m_StepCount);
 
-            ShadowMeshRenderer.SetPropertyBlock(PropertyBlock);
+            //if (transform.hasChanged)
+            //{
+            //    //request camera to re-configure command buffer
+            //    print("The transform has changed!");
+            //    transform.hasChanged = false;
+            //}
         }
 
         private void UpdateShadowMesh()

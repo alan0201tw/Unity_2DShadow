@@ -2,10 +2,10 @@
 {
 	Properties
 	{
-		[PerRendererData] _CenterWorldPos("_CenterWorldPos", Vector) = (0,0,0,0)
+		/*[PerRendererData] _CenterWorldPos("_CenterWorldPos", Vector) = (0,0,0,0)
 		[PerRendererData] _Color("_Color", Color) = (0,0,0,0)
 		[PerRendererData] _Radius("_Radius", float) = 0
-		[PerRendererData] _StepCount("_StepCount", int) = 50
+		[PerRendererData] _StepCount("_StepCount", int) = 50*/
 	}
 		SubShader
 	{

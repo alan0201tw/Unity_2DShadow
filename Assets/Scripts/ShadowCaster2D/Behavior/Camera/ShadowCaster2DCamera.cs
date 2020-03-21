@@ -16,7 +16,9 @@ namespace ShadowCaster2D.GPU
         private Material m_blurringMaterial = null;
         private CommandBuffer m_commandBuffer = null;
         
+        [SerializeField]
         private RenderTexture m_lightMapRaw = null;
+        [SerializeField]
         private RenderTexture m_lightMapFinal = null;
 
         private void Start()
@@ -65,17 +67,22 @@ namespace ShadowCaster2D.GPU
             m_commandBuffer.ClearRenderTarget(false, true, Color.black);
             foreach (ShadowCaster2DGPU shadowCaster in shadowCasters)
             {
-                Matrix4x4 TRS = 
-                    Matrix4x4.TRS(
-                        shadowCaster.transform.position, 
-                        shadowCaster.transform.rotation, 
-                        shadowCaster.transform.localScale);
+                //Matrix4x4 TRS = 
+                //    Matrix4x4.TRS(
+                //        shadowCaster.transform.position, 
+                //        shadowCaster.transform.rotation, 
+                //        shadowCaster.transform.localScale);
 
-                m_commandBuffer.DrawMesh(
-                    shadowCaster.ShadowMesh,
-                    TRS,
-                    shadowCaster.ShadowMaterial,
-                    0, 0, shadowCaster.PropertyBlock);
+                //m_commandBuffer.DrawMesh(
+                //    shadowCaster.ShadowMesh,
+                //    TRS,
+                //    shadowCaster.ShadowMaterial,
+                //    0, 0);
+
+                m_commandBuffer.DrawRenderer(
+                    shadowCaster.ShadowMeshRenderer,
+                    shadowCaster.ShadowMaterial
+                    );
             }
 
             // Blurring the light map to avoid aliasing artifact
