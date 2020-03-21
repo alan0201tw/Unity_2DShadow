@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -7,61 +6,26 @@ namespace ShadowCaster2D.GPU
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(Camera))]
-    public class LightCaster2DCameraGPU : MonoBehaviour
+    public class ShadowCaster2DCamera : MonoBehaviour
     {
-        public static LightCaster2DCameraGPU Instance { get; private set; }
-        
-        [SerializeField]
-        private Material m_effectMaterial;
-        [SerializeField]
-        private RenderTexture m_obstacleTexture;
-        [SerializeField]
-        private LayerMask m_obstacleLayer;
-
-        private Camera m_camera;
-
+        private Camera m_camera = null;
         private bool isHavingNewShadowCaster = false;
         private List<ShadowCaster2DGPU> shadowCasters = new List<ShadowCaster2DGPU>();
-
-        private Material m_shadowMaterial;
-        private Material m_blurringMaterial;
-        private CommandBuffer m_commandBuffer;
-
-        private RenderTexture m_lightMapRaw;
-        private RenderTexture m_lightMapFinal;
-
-        public RenderTexture ObstacleTexture { get { return m_obstacleTexture; } }
-
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-        }
+        
+        private Material m_effectMaterial = null;
+        private Material m_blurringMaterial = null;
+        private CommandBuffer m_commandBuffer = null;
+        
+        private RenderTexture m_lightMapRaw = null;
+        private RenderTexture m_lightMapFinal = null;
 
         private void Start()
         {
-            m_shadowMaterial = new Material(Shader.Find("_FatshihShader/ShadowShaderGPU"));
+            m_effectMaterial = new Material(Shader.Find("_FatshihShader/LightBlending2DShader"));
+            m_effectMaterial.SetVector("_Ambient", new Vector4(0.2f, 0.2f, 0.2f, 0.2f));
             m_blurringMaterial = new Material(Shader.Find("Hidden/Blur"));
 
-            Shader.SetGlobalTexture("_ObstacleTex", m_obstacleTexture);
-
             m_camera = GetComponent<Camera>();
-            //m_commandBuffer = new CommandBuffer();
-        }
-
-        private void Update()
-        {
-            //LayerMask originalCullingMask = m_camera.cullingMask;
-
-            //m_camera.targetTexture = ObstacleTexture;
-            //m_camera.cullingMask = m_obstacleLayer;
-            //m_camera.Render();
-
-            //m_camera.targetTexture = null;
-            //m_camera.cullingMask = originalCullingMask;
-            //m_camera.Render();
         }
 
         private void OnPreRender()
@@ -83,19 +47,35 @@ namespace ShadowCaster2D.GPU
 
             m_lightMapRaw = new RenderTexture(Screen.width, Screen.height, 0)
             {
-                name = "Raw light map"
+                name = "Raw light map",
+                format = RenderTextureFormat.ARGB32,
+                filterMode = FilterMode.Point,
+                anisoLevel = 0
             };
             m_lightMapFinal = new RenderTexture(Screen.width, Screen.height, 0)
             {
-                name = "Final(Blurred) light map"
+                name = "Final(Blurred) light map",
+                format = RenderTextureFormat.ARGB32,
+                filterMode = FilterMode.Point,
+                anisoLevel = 0
             };
 
             // Render the light map
             m_commandBuffer.SetRenderTarget(m_lightMapRaw);
             m_commandBuffer.ClearRenderTarget(false, true, Color.black);
-            foreach (var shadowCaster in shadowCasters)
+            foreach (ShadowCaster2DGPU shadowCaster in shadowCasters)
             {
-                m_commandBuffer.DrawRenderer(shadowCaster.ShadowMeshRenderer, m_shadowMaterial, 0, 0);
+                Matrix4x4 TRS = 
+                    Matrix4x4.TRS(
+                        shadowCaster.transform.position, 
+                        shadowCaster.transform.rotation, 
+                        shadowCaster.transform.localScale);
+
+                m_commandBuffer.DrawMesh(
+                    shadowCaster.ShadowMesh,
+                    TRS,
+                    shadowCaster.ShadowMaterial,
+                    0, 0, shadowCaster.PropertyBlock);
             }
 
             // Blurring the light map to avoid aliasing artifact

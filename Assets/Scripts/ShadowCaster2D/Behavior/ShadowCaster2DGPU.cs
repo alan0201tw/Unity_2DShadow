@@ -15,72 +15,122 @@ namespace ShadowCaster2D.GPU
     public class ShadowCaster2DGPU : MonoBehaviour
     {
         #region Unity visible parameters
+        [Header("Light Caster Parameters")]
         [SerializeField]
         [Range(30, 360)]
-        private int indicesCount = 60;
+        private int m_IndicesCount = 60;
         [SerializeField]
         [Range(50, 250)]
-        private int stepCount = 75;
+        private int m_StepCount = 75;
         [SerializeField]
-        private float radius = 1f;
+        private float m_Radius = 1f;
         [SerializeField]
         [Range(0f, 360f)]
-        private float angle = 360f;
+        private float m_Angle = 360f;
+        [SerializeField]
+        private Color m_ShadowColor = Color.white;
+
+        [Header("Obstacle Parameters")]
+        [SerializeField]
+        private LayerMask m_ObstacleLayer = 0;
+
+        [Header("Target Camera")]
+        [SerializeField]
+        private ShadowCaster2DCamera m_TargetCamera = null;
         #endregion
 
-        [SerializeField]
-        private Color shadowColor = Color.white;
-
-        private MaterialPropertyBlock m_propertyBlock;
-        private MeshFilter m_meshFilter;
+        private MeshFilter m_meshFilter = null;
+        private Camera m_obstacleCamera = null;
 
         public MeshRenderer ShadowMeshRenderer { get; private set; }
         public Mesh ShadowMesh { get; private set; }
+        public MaterialPropertyBlock PropertyBlock { get; private set; }
+        
+        public Material ShadowMaterial { get; set; }
+        public RenderTexture ObstacleTexture { get; set; }
+        public Camera ObstacleCamera { get { return m_obstacleCamera; } }
+
+        private void Reset()
+        {
+            m_TargetCamera = FindObjectOfType<ShadowCaster2DCamera>();
+        }
 
         private void Start()
         {
-            m_propertyBlock = new MaterialPropertyBlock();
+            m_TargetCamera.RegisterShadowCaster(this);
+
+            PropertyBlock = new MaterialPropertyBlock();
             m_meshFilter = GetComponent<MeshFilter>();
             ShadowMeshRenderer = GetComponent<MeshRenderer>();
             ShadowMesh = new Mesh();
             m_meshFilter.mesh = ShadowMesh;
 
+            ShadowMaterial = new Material(Shader.Find("_FatshihShader/ShadowShaderGPU"));
+
             UpdateShadowMesh();
 
-            LightCaster2DCameraGPU.Instance.RegisterShadowCaster(this);
+            // create a dummy camera object for obstacle detection
+            m_obstacleCamera = gameObject.GetComponent<Camera>();
+            if (m_obstacleCamera == null)
+                m_obstacleCamera = gameObject.AddComponent<Camera>();
+            // if you want it to be hidden in inspector, add " | HideFlags.HideInInspector "
+            {
+                m_obstacleCamera.hideFlags = HideFlags.HideAndDontSave;
+                m_obstacleCamera.orthographic = true;
+                m_obstacleCamera.orthographicSize = m_Radius;
+                m_obstacleCamera.useOcclusionCulling = false;
+                m_obstacleCamera.allowHDR = false;
+                m_obstacleCamera.allowMSAA = false;
+                m_obstacleCamera.clearFlags = CameraClearFlags.Color;
+                m_obstacleCamera.backgroundColor = new Color(0, 0, 0, 0);
+                m_obstacleCamera.depth = -1;
 
-            m_propertyBlock.SetVector("_CenterWorldPos", transform.position);
-            m_propertyBlock.SetColor("_Color", shadowColor);
-            m_propertyBlock.SetFloat("_Radius", radius);
-            //m_propertyBlock.SetTexture("_ObstacleTex", m_lightCasterCamera.ObstacleTexture);
-            m_propertyBlock.SetInt("_StepCount", stepCount);
+                m_obstacleCamera.cullingMask = m_ObstacleLayer;
 
-            ShadowMeshRenderer.SetPropertyBlock(m_propertyBlock);
+                ObstacleTexture = new RenderTexture(
+                    new RenderTextureDescriptor(Screen.width, Screen.height, RenderTextureFormat.ARGB32)
+                    )
+                {
+                    name = "ObstacleTexture for " + name
+                };
+
+                m_obstacleCamera.targetTexture = ObstacleTexture;
+            }
+            ShadowMaterial.SetTexture("_ObstacleTex", ObstacleTexture);
+
+            ShadowMaterial.SetMatrix("_ObstacleCameraViewMatrix", ObstacleCamera.worldToCameraMatrix);
+            ShadowMaterial.SetMatrix("_ObstacleCameraProjMatrix", ObstacleCamera.projectionMatrix);
+
+            PropertyBlock.SetVector("_CenterWorldPos", transform.position);
+            PropertyBlock.SetColor("_Color", m_ShadowColor);
+            PropertyBlock.SetFloat("_Radius", m_Radius);
+            PropertyBlock.SetInt("_StepCount", m_StepCount);
+
+            ShadowMeshRenderer.SetPropertyBlock(PropertyBlock);
         }
 
         private void UpdateShadowMesh()
         {
             // Updating shadowMesh
-            Vector3[] vertices = new Vector3[indicesCount + 2];
-            int[] indices = new int[indicesCount * 3];
+            Vector3[] vertices = new Vector3[m_IndicesCount + 2];
+            int[] indices = new int[m_IndicesCount * 3];
 
             /* IMPORTANT :
              *   all vertices are in local space.
-             *   ...
-             *   ...
              */
 
-            Vector3 rayDirection = transform.right * radius;
+            Vector3 rayDirection = transform.right;
             float currentAngle = transform.eulerAngles.z;
-            float angleStep = angle / indicesCount;
+            float angleStep = m_Angle / m_IndicesCount;
             // create a line-mesh
             vertices[0] = Vector3.zero;
-            for (int i = 1; i < indicesCount + 2; i++)
+            for (int i = 1; i < m_IndicesCount + 2; i++)
             {
                 rayDirection.x = Mathf.Cos(currentAngle * Mathf.Deg2Rad);
                 rayDirection.y = Mathf.Sin(currentAngle * Mathf.Deg2Rad);
+                rayDirection.z = 0.0f;
                 rayDirection.Normalize();
-                rayDirection *= radius;
+                rayDirection *= m_Radius;
 
                 vertices[i] = transform.InverseTransformPoint(transform.position + rayDirection);
 
@@ -88,7 +138,7 @@ namespace ShadowCaster2D.GPU
 
                 //Debug.DrawLine(transform.position, transform.TransformPoint(vertices[i]), shadowColor);
 
-                if (i < indicesCount + 1)
+                if (i < m_IndicesCount + 1)
                 {
                     indices[(i - 1) * 3] = 0;
                     indices[(i - 1) * 3 + 1] = i;

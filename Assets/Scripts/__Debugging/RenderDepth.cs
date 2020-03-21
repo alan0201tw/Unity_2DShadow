@@ -7,7 +7,7 @@ namespace FatshihDebug
     public class RenderDepth : MonoBehaviour
     {
         [SerializeField]
-        private DepthTextureMode mode;
+        private DepthTextureMode mode = DepthTextureMode.Depth;
 
         void OnEnable()
         {
