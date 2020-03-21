@@ -1,17 +1,11 @@
 ﻿Shader "_FatshihShader/ShadowShaderGPU"
 {
-	Properties
-	{
-		/*[PerRendererData] _CenterWorldPos("_CenterWorldPos", Vector) = (0,0,0,0)
-		[PerRendererData] _Color("_Color", Color) = (0,0,0,0)
-		[PerRendererData] _Radius("_Radius", float) = 0
-		[PerRendererData] _StepCount("_StepCount", int) = 50*/
-	}
-		SubShader
+	SubShader
 	{
 		Cull Off
 		Lighting Off
 		ZWrite Off
+		//Blend SrcAlpha OneMinusSrcAlpha
 		Blend One One
 
 		Tags
@@ -79,12 +73,12 @@
 					//float4 currentPosInObstacleTextureSpace = 
 					//	ComputeScreenPos(UnityWorldToClipPos(currentWorldPos - _CenterWorldPos));
 
-					float4 currentPosInObstacleTextureSpace = 
+					float4 currentPosInObstacleTextureSpace =
 						ComputeObstacleSpacePos(
-							mul(_ObstacleCameraProjMatrix, 
+							mul(_ObstacleCameraProjMatrix,
 								mul(_ObstacleCameraViewMatrix, float4(currentWorldPos, 1))));
 
-					currentPosInObstacleTextureSpace.xy = 
+					currentPosInObstacleTextureSpace.xy =
 						(currentPosInObstacleTextureSpace.xy / currentPosInObstacleTextureSpace.w);
 
 #if UNITY_UV_STARTS_AT_TOP
@@ -108,7 +102,7 @@
 			{
 				float intensity = 1 - (distance(i.worldPos, _CenterWorldPos.xyz) / _Radius);
 
-				return _Color * float4(intensity,intensity,intensity,intensity);
+				return _Color * intensity;
 			}
 			ENDCG
 		}

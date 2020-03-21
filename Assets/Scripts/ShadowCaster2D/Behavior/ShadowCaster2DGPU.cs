@@ -62,6 +62,7 @@ namespace ShadowCaster2D.GPU
             ShadowMeshRenderer = GetComponent<MeshRenderer>();
             ShadowMesh = new Mesh();
             m_meshFilter.mesh = ShadowMesh;
+            ShadowMesh.MarkDynamic();
 
             ShadowMaterial = new Material(Shader.Find("_FatshihShader/ShadowShaderGPU"));
 
@@ -107,12 +108,8 @@ namespace ShadowCaster2D.GPU
             ShadowMaterial.SetFloat("_Radius", m_Radius);
             ShadowMaterial.SetInt("_StepCount", m_StepCount);
 
-            //if (transform.hasChanged)
-            //{
-            //    //request camera to re-configure command buffer
-            //    print("The transform has changed!");
-            //    transform.hasChanged = false;
-            //}
+            // if the m_Radius, m_Angle field is changed, UpdateShadowMesh() need to be called to re-build mesh
+            m_obstacleCamera.orthographicSize = m_Radius;
         }
 
         private void UpdateShadowMesh()

@@ -8,6 +8,9 @@ namespace ShadowCaster2D.GPU
     [RequireComponent(typeof(Camera))]
     public class ShadowCaster2DCamera : MonoBehaviour
     {
+        [SerializeField]
+        private Vector4 m_Ambient = Vector4.one;
+
         private Camera m_camera = null;
         private bool isHavingNewShadowCaster = false;
         private List<ShadowCaster2DGPU> shadowCasters = new List<ShadowCaster2DGPU>();
@@ -16,15 +19,13 @@ namespace ShadowCaster2D.GPU
         private Material m_blurringMaterial = null;
         private CommandBuffer m_commandBuffer = null;
         
-        [SerializeField]
         private RenderTexture m_lightMapRaw = null;
-        [SerializeField]
         private RenderTexture m_lightMapFinal = null;
 
         private void Start()
         {
             m_effectMaterial = new Material(Shader.Find("_FatshihShader/LightBlending2DShader"));
-            m_effectMaterial.SetVector("_Ambient", new Vector4(0.2f, 0.2f, 0.2f, 0.2f));
+            m_effectMaterial.SetVector("_Ambient", m_Ambient);
             m_blurringMaterial = new Material(Shader.Find("Hidden/Blur"));
 
             m_camera = GetComponent<Camera>();
@@ -67,18 +68,6 @@ namespace ShadowCaster2D.GPU
             m_commandBuffer.ClearRenderTarget(false, true, Color.black);
             foreach (ShadowCaster2DGPU shadowCaster in shadowCasters)
             {
-                //Matrix4x4 TRS = 
-                //    Matrix4x4.TRS(
-                //        shadowCaster.transform.position, 
-                //        shadowCaster.transform.rotation, 
-                //        shadowCaster.transform.localScale);
-
-                //m_commandBuffer.DrawMesh(
-                //    shadowCaster.ShadowMesh,
-                //    TRS,
-                //    shadowCaster.ShadowMaterial,
-                //    0, 0);
-
                 m_commandBuffer.DrawRenderer(
                     shadowCaster.ShadowMeshRenderer,
                     shadowCaster.ShadowMaterial
